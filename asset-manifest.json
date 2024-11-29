@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/YoonJiho96/closers-fansitekit/static/css/main.e6c13ad2.css",
-    "main.js": "/YoonJiho96/closers-fansitekit/static/js/main.b0483e78.js",
-    "static/js/453.9ac84142.chunk.js": "/YoonJiho96/closers-fansitekit/static/js/453.9ac84142.chunk.js",
-    "index.html": "/YoonJiho96/closers-fansitekit/index.html",
-    "main.e6c13ad2.css.map": "/YoonJiho96/closers-fansitekit/static/css/main.e6c13ad2.css.map",
-    "main.b0483e78.js.map": "/YoonJiho96/closers-fansitekit/static/js/main.b0483e78.js.map",
-    "453.9ac84142.chunk.js.map": "/YoonJiho96/closers-fansitekit/static/js/453.9ac84142.chunk.js.map"
+    "main.css": "/closers-fansitekit/static/css/main.e6c13ad2.css",
+    "main.js": "/closers-fansitekit/static/js/main.d95f2c35.js",
+    "static/js/453.9ac84142.chunk.js": "/closers-fansitekit/static/js/453.9ac84142.chunk.js",
+    "index.html": "/closers-fansitekit/index.html",
+    "main.e6c13ad2.css.map": "/closers-fansitekit/static/css/main.e6c13ad2.css.map",
+    "main.d95f2c35.js.map": "/closers-fansitekit/static/js/main.d95f2c35.js.map",
+    "453.9ac84142.chunk.js.map": "/closers-fansitekit/static/js/453.9ac84142.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.b0483e78.js"
+    "static/js/main.d95f2c35.js"
   ]
 }
