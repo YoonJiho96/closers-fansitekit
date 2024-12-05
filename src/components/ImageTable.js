@@ -1,5 +1,7 @@
-// src/components/ImageTable.js
 import React, { useState, useEffect } from 'react';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root'); // 접근성을 위해 설정
 
 function ImageTable({ images, setImages }) {
   const [editIndex, setEditIndex] = useState(null);
@@ -19,6 +21,18 @@ function ImageTable({ images, setImages }) {
   const [selectedCharacters, setSelectedCharacters] = useState([]);
   const themeNames = Array.from(new Set(images.map((image) => image.theme)));
   const [selectedTheme, setSelectedTheme] = useState('전체');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState('');
+
+  const handleThumbnailClick = (imagePath) => {
+    setModalImage(imagePath);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleCharacterToggle = (character) => {
     setSelectedCharacters((prevSelected) =>
@@ -40,7 +54,6 @@ function ImageTable({ images, setImages }) {
     );
   };
 
-  // Filter themes based on selected characters
   const filteredThemes = selectedCharacters.length
     ? Array.from(
         new Set(
@@ -171,31 +184,29 @@ function ImageTable({ images, setImages }) {
           </tr>
         </thead>
         <tbody>
-          {currentImages.map((image, index) => {
-            const actualIndex = images.findIndex((img) => img.id === image.id);
-            return (
-              <tr
-                key={image.id}
-                style={{
-                  backgroundColor:
-                    image.character === '미지정' || image.theme === '미지정' ? '#ffe6e6' : 'white',
-                }}
-              >
-                <td>
-                  <img
-                    src={encodeURI(`${process.env.PUBLIC_URL}/${image.thumbnailPath}`)}
-                    alt={`썸네일 ${image.id}`}
-                    style={{ width: '100px', height: 'auto' }}
-                  />
-                </td>
-                <td>{image.character}</td>
-                <td>{image.theme}</td>
-                <td>
-                  <button>편집</button>
-                </td>
-              </tr>
-            );
-          })}
+          {currentImages.map((image) => (
+            <tr
+              key={image.id}
+              style={{
+                backgroundColor:
+                  image.character === '미지정' || image.theme === '미지정' ? '#ffe6e6' : 'white',
+              }}
+            >
+              <td>
+                <img
+                  src={encodeURI(`${process.env.PUBLIC_URL}/${image.thumbnailPath}`)}
+                  alt={`썸네일 ${image.id}`}
+                  style={{ width: '100px', height: 'auto', cursor: 'pointer' }}
+                  onClick={() => handleThumbnailClick(image.imagePath)}
+                />
+              </td>
+              <td>{image.character}</td>
+              <td>{image.theme}</td>
+              <td>
+                <button>편집</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -247,6 +258,58 @@ function ImageTable({ images, setImages }) {
           <button onClick={handlePageInputSubmit}>이동</button>
         </div>
       </div>
+
+      {/* 이미지 팝업 */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            inset: '5%',
+            padding: 0,
+            border: 'none',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          },
+        }}
+      >
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          {/* 닫기 버튼 */}
+          <button
+            onClick={closeModal}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              backgroundColor: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              padding: '5px 10px',
+              cursor: 'pointer',
+              zIndex: 1000,
+            }}
+          >
+            닫기
+          </button>
+          {/* 원본 이미지 */}
+          <img
+            src={encodeURI(`${process.env.PUBLIC_URL}/${modalImage}`)}
+            alt="원본 이미지"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              display: 'block',
+              margin: 'auto',
+            }}
+          />
+        </div>
+      </Modal>
     </div>
   );
 }
