@@ -117,6 +117,21 @@ function ImageTable({ images, setImages }) {
     setInputPage('');
   };
 
+  const handleThemeChange = (e) => {
+    const selected = e.target.value;
+    setSelectedTheme(selected);
+  
+    // 선택된 테마에 해당하는 캐릭터 자동 선택
+    if (selected !== '전체') {
+      const relatedCharacters = images
+        .filter((image) => image.theme === selected)
+        .map((image) => image.character);
+      setSelectedCharacters([...new Set(relatedCharacters)]); // 중복 제거 후 설정
+    } else {
+      setSelectedCharacters([]); // 전체 선택 시 캐릭터 선택 초기화
+    }
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCharacters, selectedTheme, showUnassignedOnly, itemsPerPage]);
@@ -160,7 +175,7 @@ function ImageTable({ images, setImages }) {
           테마:
           <select
             value={selectedTheme}
-            onChange={(e) => setSelectedTheme(e.target.value)}
+            onChange={handleThemeChange}
             style={{ marginLeft: '5px' }}
           >
             <option value="전체">전체</option>
