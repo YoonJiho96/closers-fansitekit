@@ -132,6 +132,20 @@ function ImageTable({ images, setImages }) {
     }
   };
 
+  // 데이터 다운로드 함수
+  const downloadData = () => {
+    const dataStr = JSON.stringify(images, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'images.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCharacters, selectedTheme, showUnassignedOnly, itemsPerPage]);
@@ -186,6 +200,39 @@ function ImageTable({ images, setImages }) {
             ))}
           </select>
         </label>
+      </div>
+
+            {/* 미지정 이미지만 보기 옵션 */}
+            <div style={{ marginBottom: '10px' }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={showUnassignedOnly}
+            onChange={(e) => setShowUnassignedOnly(e.target.checked)}
+          />
+          미지정 이미지만 보기
+        </label>
+      </div>
+
+      {/* 페이지당 아이템 수 선택 */}
+      <div style={{ marginBottom: '10px' }}>
+        <label>
+          페이지당 표시할 아이템 수:{' '}
+          <select
+            value={itemsPerPage}
+            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+          >
+            <option value={10}>10개</option>
+            <option value={25}>25개</option>
+            <option value={50}>50개</option>
+            <option value={100}>100개</option>
+          </select>
+        </label>
+      </div>
+
+      {/* 데이터 다운로드 버튼 */}
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={downloadData}>데이터 저장 및 다운로드</button>
       </div>
 
       {/* 이미지 테이블 */}
