@@ -40,6 +40,17 @@ function ImageTable({ images, setImages }) {
     );
   };
 
+  // Filter themes based on selected characters
+  const filteredThemes = selectedCharacters.length
+    ? Array.from(
+        new Set(
+          images
+            .filter((image) => selectedCharacters.includes(image.character))
+            .map((image) => image.theme)
+        )
+      )
+    : themeNames;
+
   const filteredImages = images.filter((image) => {
     const characterMatch =
       selectedCharacters.length === 0 || selectedCharacters.includes(image.character);
@@ -77,7 +88,6 @@ function ImageTable({ images, setImages }) {
     return pageNumbers;
   };
 
-  // 페이지 이동 입력 상태 추가
   const [inputPage, setInputPage] = useState('');
 
   const handlePageInputChange = (e) => {
@@ -141,7 +151,7 @@ function ImageTable({ images, setImages }) {
             style={{ marginLeft: '5px' }}
           >
             <option value="전체">전체</option>
-            {themeNames.map((theme) => (
+            {filteredThemes.map((theme) => (
               <option key={theme} value={theme}>
                 {theme}
               </option>
